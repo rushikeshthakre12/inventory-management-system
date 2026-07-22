@@ -1,0 +1,23 @@
+.dashboard-card {
+  background: #161f33;
+  border-radius: 18px;
+  padding: 25px;
+  color: white;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dashboard-card h5 {
+  color: #9ca3af;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.dashboard-card h2 {
+  color: #ffffff !important;
+  font-size: 48px;
+  font-weight: 700;
+  opacity: 1 !important;
+}
