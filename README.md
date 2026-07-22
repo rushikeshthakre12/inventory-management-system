@@ -165,10 +165,10 @@ Will be deployed on Railway
 
 ## 👨‍💻 Author
 
-**Rush Man**
+**Rushikesh**
 
 GitHub:
-https://github.com/YOUR_USERNAME
+https://github.com/rushikeshthakre12
 
 ---
 
