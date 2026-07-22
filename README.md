@@ -172,6 +172,3 @@ https://github.com/rushikeshthakre12
 
 ---
 
-## 📄 License
-
-This project was developed as part of the **BeRAM Drones Internship Assignment**.
