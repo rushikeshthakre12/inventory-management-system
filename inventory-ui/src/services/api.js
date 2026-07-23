@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: import.meta.env.VITE_API_URL || "https://inventory-management-system-production-9ad8.up.railway.app/api",
 });
 
 api.interceptors.request.use((config) => {
