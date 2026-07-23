@@ -30,11 +30,15 @@ const Login = () => {
         navigate("/dashboard");
       }
     } catch (err) {
-      setError(
-        isRegister
-          ? "Registration failed. Try a different email."
-          : "Invalid email or password. Please try again."
-      );
+      console.error("Error:", err.response);
+      const msg = err.response?.data?.message || err.response?.data;
+      if (typeof msg === "string") {
+        setError(msg);
+      } else if (isRegister) {
+        setError("Registration failed. Try a different email.");
+      } else {
+        setError("Invalid email or password.");
+      }
     } finally {
       setLoading(false);
     }
