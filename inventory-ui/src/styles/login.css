@@ -261,3 +261,14 @@
     font-size: 20px;
   }
 }
+
+.login-footer span {
+  color: #818cf8;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.login-footer span:hover {
+  color: #6366f1;
+  text-decoration: underline;
+}
