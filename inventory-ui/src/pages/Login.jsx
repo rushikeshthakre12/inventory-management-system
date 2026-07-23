@@ -1,80 +1,98 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { FiMail, FiLock, FiBox } from "react-icons/fi";
 import api from "../services/api";
 import "../styles/login.css";
 
-function Login() {
-
-  const navigate = useNavigate();
-
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const login = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
     try {
-
-      const response = await api.post("/auth/login", {
-        email,
-        password
-      });
-
+      const response = await api.post("/auth/login", { email, password });
       localStorage.setItem("token", response.data.token);
-
       navigate("/dashboard");
-
-    } catch (error) {
-
-      alert("Invalid Email or Password");
-
+    } catch (err) {
+      setError("Invalid email or password. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
   };
 
   return (
-
     <div className="login-page">
+      {/* Animated Background */}
+      <div className="login-bg">
+        <div className="login-bg-orb"></div>
+        <div className="login-bg-orb"></div>
+        <div className="login-bg-orb"></div>
+        <div className="login-bg-grid"></div>
+      </div>
 
-      <div className="circle c1"></div>
-      <div className="circle c2"></div>
-      <div className="circle c3"></div>
+      {/* Login Card */}
+      <div className="login-container">
+        <div className="login-card">
+          {/* Logo */}
+          <div className="login-logo">
+            <div className="login-logo-icon">
+              <FiBox />
+            </div>
+            <h1>BeRAM Drones</h1>
+            <p>Inventory Management System</p>
+          </div>
 
-      <motion.div
-        className="login-card"
-        initial={{ opacity: 0, y: 80 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+          {/* Form */}
+          <form className="login-form" onSubmit={handleLogin}>
+            {error && <div className="login-error">{error}</div>}
 
-        <h1>BeRAM Inventory</h1>
+            <div className="form-group-login">
+              <label>Email</label>
+              <div className="input-wrapper">
+                <FiMail className="input-icon" />
+                <input
+                  type="email"
+                  placeholder="admin@beram.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
 
-        <p>Smart Inventory Management System</p>
+            <div className="form-group-login">
+              <label>Password</label>
+              <div className="input-wrapper">
+                <FiLock className="input-icon" />
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
 
-        <input
-          type="email"
-          placeholder="Email Address"
-          value={email}
-          onChange={(e)=>setEmail(e.target.value)}
-        />
+            <button type="submit" className="login-btn" disabled={loading}>
+              {loading ? "Signing in..." : "Sign In"}
+            </button>
+          </form>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e)=>setPassword(e.target.value)}
-        />
-
-        <button onClick={login}>
-          Login
-        </button>
-
-      </motion.div>
-
+          <p className="login-footer">
+            Secure access to inventory dashboard
+          </p>
+        </div>
+      </div>
     </div>
-
   );
-
-}
+};
 
 export default Login;

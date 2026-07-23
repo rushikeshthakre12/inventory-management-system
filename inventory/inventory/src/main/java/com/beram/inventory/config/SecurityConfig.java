@@ -14,6 +14,7 @@ public class SecurityConfig {
             throws Exception {
 
         http
+                .cors(Customizer.withDefaults())   // <-- ADD THIS
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()

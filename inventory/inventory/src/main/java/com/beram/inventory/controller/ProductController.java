@@ -4,6 +4,9 @@ import com.beram.inventory.entity.Product;
 import com.beram.inventory.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import java.util.List;
 
@@ -44,6 +47,42 @@ public class ProductController {
             @RequestParam String keyword){
 
         return productService.search(keyword);
+    }
+
+    @GetMapping("/export/csv")
+    public void exportCSV(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=products.csv");
+
+        PrintWriter writer = response.getWriter();
+        writer.println("ID,Name,SKU,Price,Quantity,Low Stock Threshold,Category,Status");
+
+        List<Product> products = productService.getAllProducts();
+        for (Product p : products) {
+            String status = p.getQuantity() <= 0 ? "Out of Stock" :
+                    p.getQuantity() <= p.getLowStockThreshold() ? "Low Stock" : "In Stock";
+            String categoryName = p.getCategory() != null ? p.getCategory().getName() : "Uncategorized";
+
+            writer.printf("%d,%s,%s,%.2f,%d,%d,%s,%s\n",
+                    p.getId(),
+                    escapeCsv(p.getName()),
+                    escapeCsv(p.getSku()),
+                    p.getPrice(),
+                    p.getQuantity(),
+                    p.getLowStockThreshold(),
+                    escapeCsv(categoryName),
+                    status
+            );
+        }
+        writer.flush();
+    }
+
+    private String escapeCsv(String value) {
+        if (value == null) return "";
+        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
+            return "\"" + value.replace("\"", "\"\"") + "\"";
+        }
+        return value;
     }
 
 }
