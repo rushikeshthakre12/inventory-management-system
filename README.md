@@ -136,16 +136,6 @@ http://localhost:5173
 - Inventory Value
 - Low Stock Products
 
----
-
-## 📸 Screenshots
-
-> Screenshots will be added after UI completion.
-
-- Login Page
-- Dashboard
-- Product Management
-- Category Management
 
 ---
 
